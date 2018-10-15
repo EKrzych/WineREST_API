@@ -14,11 +14,9 @@ public class Wine {
     private String style;
     private String type;
 
-    @ManyToOne
     @NotNull
     private int idProducent;
 
-    @ManyToOne
     @NotNull
     private int idRegion;
     private LocalDate year;
