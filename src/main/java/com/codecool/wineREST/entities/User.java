@@ -1,8 +1,6 @@
 package com.codecool.wineREST.entities;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 @Entity
@@ -16,8 +14,6 @@ public class User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @ElementCollection
-    private Map<Wine, Integer> ratings = new HashMap<>();
 
     public User() {
     }
@@ -50,14 +46,6 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Map<Wine, Integer> getRatings() {
-        return ratings;
-    }
-
-    public void addRating(Wine wine, int rate) {
-        this.ratings.put(wine, rate);
     }
 
     @Override
