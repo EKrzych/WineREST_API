@@ -23,6 +23,10 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
+    public void deleteUser(User user) {
+        this.userRepository.delete(user);
+    }
+
     public long getSize() {
         return this.userRepository.count();
     }
