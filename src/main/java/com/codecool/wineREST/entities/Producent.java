@@ -1,6 +1,11 @@
 package com.codecool.wineREST.entities;
 
+import javax.persistence.*;
+
 public class Producent {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @ManyToOne
     private int idProducent;
     private String name;
 

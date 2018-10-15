@@ -1,14 +1,25 @@
 package com.codecool.wineREST.entities;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@Entity
 public class Wine {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int idWine;
     private String name;
     private String variety;
     private String style;
     private String type;
+
+    @ManyToOne
+    @NotNull
     private int idProducent;
+
+    @ManyToOne
+    @NotNull
     private int idRegion;
     private LocalDate year;
 
