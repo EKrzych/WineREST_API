@@ -1,12 +1,12 @@
 package com.codecool.wineREST.entities;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -18,6 +18,9 @@ public class User {
     private String lastName;
     @ElementCollection
     private Map<Wine, Integer> ratings = new HashMap<>();
+
+    public User() {
+    }
 
     public User(String username, String firstName, String lastName) {
         this.username = username;
