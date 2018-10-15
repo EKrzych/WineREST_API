@@ -1,4 +1,4 @@
-package entities;
+package com.codecool.wineREST.entities;
 
 public class Region {
     private int idRegion;

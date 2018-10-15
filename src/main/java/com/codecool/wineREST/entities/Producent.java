@@ -1,4 +1,4 @@
-package entities;
+package com.codecool.wineREST.entities;
 
 public class Producent {
     private int idProducent;
