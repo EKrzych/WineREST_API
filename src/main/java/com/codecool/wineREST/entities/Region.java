@@ -1,26 +1,26 @@
 package com.codecool.wineREST.entities;
 
 import javax.persistence.*;
-
+@Entity
 public class Region {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @ManyToOne
-    private int idRegion;
+    @Column(name="id_region")
+    private Long idRegion;
     private  String name;
     private String country;
 
-    public Region(int idRegion, String name, String country) {
+    public Region(Long idRegion, String name, String country) {
         this.idRegion = idRegion;
         this.name = name;
         this.country = country;
     }
 
-    public int getIdRegion() {
+    public Long getIdRegion() {
         return idRegion;
     }
 
-    public void setIdRegion(int idRegion) {
+    public void setIdRegion(Long idRegion) {
         this.idRegion = idRegion;
     }
 

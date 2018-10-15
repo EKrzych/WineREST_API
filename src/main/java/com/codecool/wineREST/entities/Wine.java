@@ -8,35 +8,40 @@ import java.time.LocalDate;
 public class Wine {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private int idWine;
+    @Column(name="id_wine")
+    private Long idWine;
     private String name;
     private String variety;
     private String style;
     private String type;
 
     @NotNull
-    private int idProducent;
+    @ManyToOne
+    @JoinColumn(name="id_producent")
+    private Producent producent;
 
     @NotNull
-    private int idRegion;
+    @ManyToOne
+    @JoinColumn(name="id_region")
+    private Region region;
     private LocalDate year;
 
-    public Wine(int idWine, String name, String variety, String style, String type, int idProducent, int idRegion, LocalDate year) {
+    public Wine(Long idWine, String name, String variety, String style, String type, @NotNull Producent producent, @NotNull Region region, LocalDate year) {
         this.idWine = idWine;
         this.name = name;
         this.variety = variety;
         this.style = style;
         this.type = type;
-        this.idProducent = idProducent;
-        this.idRegion = idRegion;
+        this.producent = producent;
+        this.region = region;
         this.year = year;
     }
 
-    public int getIdWine() {
+    public Long getIdWine() {
         return idWine;
     }
 
-    public void setIdWine(int idWine) {
+    public void setIdWine(Long idWine) {
         this.idWine = idWine;
     }
 
@@ -72,20 +77,20 @@ public class Wine {
         this.type = type;
     }
 
-    public int getIdProducent() {
-        return idProducent;
+    public Producent getProducent() {
+        return producent;
     }
 
-    public void setIdProducent(int idProducent) {
-        this.idProducent = idProducent;
+    public void setProducent(Producent producent) {
+        this.producent = producent;
     }
 
-    public int getIdRegion() {
-        return idRegion;
+    public Region getRegion() {
+        return region;
     }
 
-    public void setIdRegion(int idRegion) {
-        this.idRegion = idRegion;
+    public void setRegion(Region region) {
+        this.region = region;
     }
 
     public LocalDate getYear() {

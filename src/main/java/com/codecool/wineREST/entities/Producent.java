@@ -1,24 +1,29 @@
 package com.codecool.wineREST.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 public class Producent {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @ManyToOne
-    private int idProducent;
+    @Column(name="id_producent")
+    private Long idProducent;
     private String name;
 
-    public Producent(int idProducent, String name) {
+
+
+    public Producent(Long idProducent, String name) {
         this.idProducent = idProducent;
         this.name = name;
     }
 
-    public int getIdProducent() {
+    public Long getIdProducent() {
         return idProducent;
     }
 
-    public void setIdProducent(int idProducent) {
+    public void setIdProducent(Long idProducent) {
         this.idProducent = idProducent;
     }
 
