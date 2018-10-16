@@ -56,7 +56,7 @@ public class WineRatingController {
      * @return the found TourRating
      * @throws NoSuchElementException if no TourRating found
      */
-    private WineRating verifyTourRating(long idWine, String username) throws NoSuchElementException {
+    private WineRating verifyWineRating(long idWine, String username) throws NoSuchElementException {
         WineRating rating = this.wineRatingRepository.findByPkWineIdWineAndPkUsername(idWine, username);
         if (rating == null) {
             throw new NoSuchElementException("No ratings for wine: "
@@ -66,7 +66,7 @@ public class WineRatingController {
     }
 
     /**
-     * Verify and return the Tour given a tourId.
+     * Verify and return the Wine given idWine.
      *
      * @param idWine
      * @return the found Tour
