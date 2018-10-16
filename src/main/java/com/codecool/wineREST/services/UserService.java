@@ -26,4 +26,5 @@ public class UserService {
     public long getSize() {
         return this.userRepository.count();
     }
+
 }
