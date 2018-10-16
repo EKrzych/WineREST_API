@@ -1,6 +1,8 @@
 package com.codecool.wineREST.controllers;
 
+import com.codecool.wineREST.entities.Region;
 import com.codecool.wineREST.entities.Wine;
+import com.codecool.wineREST.repositories.RegionRepository;
 import com.codecool.wineREST.services.WineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,7 @@ import java.util.List;
 public class WineController {
     @Autowired
     WineService wineService;
+    RegionRepository regionRepository;
 
     @GetMapping("/wines")
     public Iterable<Wine> getAllWines() {
@@ -22,12 +25,12 @@ public class WineController {
         return wineService.findByName(name);
     }
 
-//    @RequestMapping(value="/wines", params = { "name"}, method=RequestMethod.GET)
-//    public List<Wine> findByRegion(@RequestParam("name") String name) {
-//
-//        Region region = regionService.findByName(name);
-//        return wineService.findByRegion(region);
-//    }
+    @RequestMapping(value="/wines", params = { "name"}, method=RequestMethod.GET)
+    public List<Wine> findByRegion(@RequestParam("name") String name) {
+
+        Region region = regionRepository.findByName(name);
+        return wineService.findByRegion(region);
+    }
 
     @RequestMapping(value="/wines", params = { "style"}, method=RequestMethod.GET)
     public List<Wine> findByStyle(@RequestParam("style") String style) {

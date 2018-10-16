@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import web.RatingDTO;
+import com.codecool.wineREST.web.RatingDTO;
 
 import java.util.NoSuchElementException;
 
@@ -73,7 +73,7 @@ public class WineRatingController {
      * @throws NoSuchElementException if no Tour found.
      */
     private Wine verifyWine(long idWine) throws NoSuchElementException {
-        Wine wine = this.wineRepository.findByIdWine(idWine);
+        Wine wine = this.wineRepository.findById(idWine).get();
         if (wine == null) {
             throw new NoSuchElementException("Wine does not exist " + idWine);
         }

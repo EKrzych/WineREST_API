@@ -4,6 +4,8 @@ import com.codecool.wineREST.entities.Producent;
 import com.codecool.wineREST.entities.Region;
 
 import com.codecool.wineREST.entities.Wine;
+import com.codecool.wineREST.repositories.ProducentRepository;
+import com.codecool.wineREST.repositories.RegionRepository;
 import com.codecool.wineREST.repositories.WineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +16,20 @@ import java.util.List;
 @Service
 public class WineService {
     private WineRepository wineRepository;
+    private ProducentRepository producentRepository;
+    private RegionRepository regionRepository;
 
     @Autowired
-    public WineService(WineRepository wineRepository) {
+    public WineService(WineRepository wineRepository, ProducentRepository producentRepository, RegionRepository regionRepository) {
         this.wineRepository = wineRepository;
+        this.producentRepository = producentRepository;
+        this.regionRepository = regionRepository;
     }
 
-    public void createWine(Long idWine, String name, String variety, String style, String type, Producent producent, Region region, LocalDate year) {
+
+    public void createWine(String name, String variety, String style, String type, Long idProducent, Long idRegion, LocalDate year) {
+        Producent producent = producentRepository.findById(idProducent).get();
+        Region region = regionRepository.findById(idRegion).get();
         this.wineRepository.save(new Wine(name, variety, style, type, producent, region, year));
     }
 
