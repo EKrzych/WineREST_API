@@ -1,6 +1,7 @@
 package com.codecool.wineREST;
 
 import com.codecool.wineREST.services.ProducentService;
+import com.codecool.wineREST.services.RegionService;
 import com.codecool.wineREST.services.UserService;
 import com.codecool.wineREST.services.WineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class WineRestApplication implements CommandLineRunner {
 	@Autowired
     private WineService wineService;
 
+    @Autowired
+    private RegionService regionService;
+
 	public static void main(String[] args) {
 
 		SpringApplication.run(WineRestApplication.class, args);
@@ -37,9 +41,12 @@ public class WineRestApplication implements CommandLineRunner {
 		producentService.createProducent("Polower");
 		producentService.createProducent("Solo");
 
+        regionService.createRegion("Abbruzzo", "Italy");
+        regionService.createRegion("BBBBBB", "France");
 
+		wineService.createWine("BeautyBlue", "Chardonney", "White", "Dry", (long)1, (long)3, LocalDate.now());
 
-		wineService.createWine("BeautyBlue", "Chardonney", "White", "Dry", (long)1, (long)1, LocalDate.now());
+        wineService.createWine("RedCredit", "CCCCCC", "Red", "Dry", (long)1, (long)4, LocalDate.now());
 
 
 

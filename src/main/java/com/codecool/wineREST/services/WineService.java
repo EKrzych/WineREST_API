@@ -46,14 +46,15 @@ public class WineService {
     }
 
     public List<Wine> findByStyle(String style) {
-        return wineRepository.findByName(style);
+        return wineRepository.findByStyle(style);
     }
 
     public List<Wine> findByType(String type) {
-        return wineRepository.findByName(type);
+        return wineRepository.findByType(type);
     }
+
     public List<Wine> findByVariety(String variety) {
-        return wineRepository.findByName(variety);
+        return wineRepository.findByVariety(variety);
     }
 
 

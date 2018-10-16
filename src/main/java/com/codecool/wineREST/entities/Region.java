@@ -11,10 +11,12 @@ public class Region {
     private  String name;
     private String country;
 
-    public Region(Long idRegion, String name, String country) {
-        this.idRegion = idRegion;
+    public Region(String name, String country) {
         this.name = name;
         this.country = country;
+    }
+
+    public Region() {
     }
 
     public Long getIdRegion() {

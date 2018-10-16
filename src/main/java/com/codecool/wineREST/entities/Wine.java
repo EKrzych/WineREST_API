@@ -37,6 +37,9 @@ public class Wine {
         this.year = year;
     }
 
+    public Wine() {
+    }
+
     public Long getIdWine() {
         return idWine;
     }
