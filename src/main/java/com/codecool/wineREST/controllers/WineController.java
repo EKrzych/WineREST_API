@@ -1,10 +1,12 @@
 package com.codecool.wineREST.controllers;
 
 import com.codecool.wineREST.entities.Region;
+import com.codecool.wineREST.entities.User;
 import com.codecool.wineREST.entities.Wine;
 import com.codecool.wineREST.services.RegionService;
 import com.codecool.wineREST.services.WineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -59,6 +61,12 @@ public class WineController {
     @RequestMapping(value = "/ratings", params = { "minRating"}, method=RequestMethod.GET)
     public List<Wine> findByMinRating(@RequestParam("minRating") String minRating) {
         return wineService.findByMinRating(Integer.valueOf(minRating));
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createWine(@RequestBody Wine wine) {
+        this.wineService.createWine(wine.getName(), wine.getVariety(), wine.getStyle(), wine.getType(), wine.getProducent().getIdProducent(), wine.getRegion().getIdRegion(),wine.getYear());
     }
 
 }
