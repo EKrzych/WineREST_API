@@ -14,4 +14,6 @@ public interface WineRepository extends CrudRepository<Wine, Long> {
     List<Wine> findByStyle(String style);
     List<Wine> findByType(String type);
     List<Wine> findByVariety(String variety);
+    List<Wine> getBestWine();
 }
+

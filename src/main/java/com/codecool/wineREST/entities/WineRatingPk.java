@@ -49,4 +49,6 @@ public class WineRatingPk implements Serializable {
                 ", username='" + username + '\'' +
                 '}';
     }
+
+
 }

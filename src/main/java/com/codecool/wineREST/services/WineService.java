@@ -4,27 +4,36 @@ import com.codecool.wineREST.entities.Producent;
 import com.codecool.wineREST.entities.Region;
 
 import com.codecool.wineREST.entities.Wine;
+import com.codecool.wineREST.entities.WineRating;
 import com.codecool.wineREST.repositories.ProducentRepository;
 import com.codecool.wineREST.repositories.RegionRepository;
+import com.codecool.wineREST.repositories.WineRatingRepository;
 import com.codecool.wineREST.repositories.WineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class WineService {
     private WineRepository wineRepository;
     private ProducentRepository producentRepository;
     private RegionRepository regionRepository;
+    private WineRatingRepository wineRatingRepository;
 
-    @Autowired
-    public WineService(WineRepository wineRepository, ProducentRepository producentRepository, RegionRepository regionRepository) {
+    public WineService(WineRepository wineRepository, ProducentRepository producentRepository, RegionRepository regionRepository, WineRatingRepository wineRatingRepository) {
         this.wineRepository = wineRepository;
         this.producentRepository = producentRepository;
         this.regionRepository = regionRepository;
+        this.wineRatingRepository = wineRatingRepository;
     }
+
+    @Autowired
+
 
 
     public void createWine(String name, String variety, String style, String type, Long idProducent, Long idRegion, LocalDate year) {
@@ -57,5 +66,63 @@ public class WineService {
         return wineRepository.findByVariety(variety);
     }
 
+    public  List<Wine> getBestWine() {
+       Map<Wine, Long> wineListRatingSum = getWineListRatingSum();
+       Map<Wine, Long> bestWinesWithRatingCount = new HashMap<>();
 
+       Map.Entry<Wine, Long> maxEntry = null;
+       for (Map.Entry<Wine, Long> entry : wineListRatingSum.entrySet()) {
+           Long ratingsCount = (long) wineRatingRepository.findByPkWineWine(entry.getKey()).size();
+           entry.setValue(entry.getValue() / ratingsCount);
+           if (maxEntry == null) {
+               maxEntry = entry;
+           } else if (entry.getValue() > maxEntry.getValue()) {
+               maxEntry = entry;
+               bestWinesWithRatingCount.clear();
+               bestWinesWithRatingCount.put(maxEntry.getKey(), ratingsCount);
+           } else if (entry.getValue().equals(maxEntry.getValue())) {
+               bestWinesWithRatingCount.put(entry.getKey(), ratingsCount);
+           }
+       }
+       List<Wine> bestWine = new ArrayList<>();
+       Map.Entry<Wine, Long> maxEntryUsers = null;
+       for (Map.Entry<Wine, Long> bestEntry : bestWinesWithRatingCount.entrySet()) {
+           if (maxEntryUsers == null) {
+               maxEntryUsers = bestEntry;
+           } else if (bestEntry.getValue() > maxEntryUsers.getValue()) {
+               maxEntryUsers = bestEntry;
+               bestWine.clear();
+               bestWine.add(maxEntryUsers.getKey());
+           } else if (bestEntry.getValue().equals(maxEntryUsers.getValue())) {
+               bestWine.add(maxEntryUsers.getKey());
+           }
+
+       }
+       return bestWine;
+   }
+
+    public List<Wine> findByMinRating(Integer minRating) {
+        Map<Wine, Long> wineListRatingSum = getWineListRatingSum();
+        List<Wine> chosenWine = new ArrayList<>();
+
+        for (Map.Entry<Wine, Long> entry : wineListRatingSum.entrySet()) {
+            Long ratingsCount = (long) wineRatingRepository.findByPkWineWine(entry.getKey()).size();
+            entry.setValue(entry.getValue() / ratingsCount);
+            if (entry.getValue() >= minRating) {
+                chosenWine.add(entry.getKey());
+            }
+        }
+        return chosenWine;
+    }
+
+    private Map<Wine, Long> getWineListRatingSum() {
+        Iterable<WineRating> ratingList = wineRatingRepository.findAll();
+        Map<Wine, Long> wineListRatingSum = new HashMap<>();
+
+        for (WineRating wineRating : ratingList) {
+            Long ratingSum = wineListRatingSum.getOrDefault(wineRating.getPk().getWine(), 0L);
+            wineListRatingSum.put(wineRating.getPk().getWine(), ratingSum + 1);
+        }
+        return wineListRatingSum;
+    }
 }

@@ -51,4 +51,15 @@ public class WineController {
     public List<Wine> findByVariety(@RequestParam("variety") String variety) {
         return wineService.findByVariety(variety);
     }
+
+    @GetMapping("/best")
+    public Iterable<Wine> getBestWine() {
+        return wineService.getBestWine();
+    }
+
+    @RequestMapping(params = { "minRating"}, method=RequestMethod.GET)
+    public List<Wine> findByMinRating(@RequestParam("minRating") Integer minRating) {
+        return wineService.findByMinRating(minRating);
+    }
+
 }

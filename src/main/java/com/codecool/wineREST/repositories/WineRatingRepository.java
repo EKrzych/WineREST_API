@@ -1,5 +1,6 @@
 package com.codecool.wineREST.repositories;
 
+import com.codecool.wineREST.entities.Wine;
 import com.codecool.wineREST.entities.WineRating;
 import com.codecool.wineREST.entities.WineRatingPk;
 import org.springframework.data.repository.CrudRepository;
@@ -18,7 +19,7 @@ public interface WineRatingRepository extends CrudRepository<WineRating, WineRat
      * @return a List of any found WineRatings
      */
     List<WineRating> findByPkWineIdWine(Long idWine);
-
+    List<WineRating> findByPkWineWine(Wine wine); //lists WineRatings for Wine
     /**
      * Lookup all the WineRatings for a User.
      *
