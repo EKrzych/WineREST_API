@@ -4,7 +4,6 @@ import com.codecool.wineREST.entities.Wine;
 import com.codecool.wineREST.entities.WineRating;
 import com.codecool.wineREST.entities.WineRatingPk;
 import com.codecool.wineREST.repositories.WineRatingRepository;
-import com.codecool.wineREST.repositories.WineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
