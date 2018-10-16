@@ -2,6 +2,7 @@ package com.codecool.wineREST.entities;
 
 import javax.persistence.*;
 @Entity
+@Table(name="regions")
 public class Region {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
