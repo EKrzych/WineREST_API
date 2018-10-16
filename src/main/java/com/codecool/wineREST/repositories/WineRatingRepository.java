@@ -19,7 +19,6 @@ public interface WineRatingRepository extends CrudRepository<WineRating, WineRat
      * @return a List of any found WineRatings
      */
     List<WineRating> findByPkWineIdWine(Long idWine);
-    List<WineRating> findByPkWineWine(Wine wine); //lists WineRatings for Wine
     /**
      * Lookup all the WineRatings for a User.
      *

@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class WineService {
@@ -25,6 +22,7 @@ public class WineService {
     private RegionRepository regionRepository;
     private WineRatingRepository wineRatingRepository;
 
+    @Autowired
     public WineService(WineRepository wineRepository, ProducentRepository producentRepository, RegionRepository regionRepository, WineRatingRepository wineRatingRepository) {
         this.wineRepository = wineRepository;
         this.producentRepository = producentRepository;
@@ -32,13 +30,9 @@ public class WineService {
         this.wineRatingRepository = wineRatingRepository;
     }
 
-    @Autowired
-
-
-
     public void createWine(String name, String variety, String style, String type, Long idProducent, Long idRegion, LocalDate year) {
-        Producent producent = producentRepository.findById(idProducent).get();
-        Region region = regionRepository.findById(idRegion).get();
+        Producent producent = producentRepository.findById(idProducent).orElseThrow(NoSuchElementException::new);
+        Region region = regionRepository.findById(idRegion).orElseThrow(NoSuchElementException::new);
         this.wineRepository.save(new Wine(name, variety, style, type, producent, region, year));
     }
 
@@ -72,10 +66,12 @@ public class WineService {
 
        Map.Entry<Wine, Long> maxEntry = null;
        for (Map.Entry<Wine, Long> entry : wineListRatingSum.entrySet()) {
-           Long ratingsCount = (long) wineRatingRepository.findByPkWineWine(entry.getKey()).size();
+           Long ratingsCount = (long) wineRatingRepository.findByPkWineIdWine(entry.getKey().getIdWine()).size();
            entry.setValue(entry.getValue() / ratingsCount);
+
            if (maxEntry == null) {
                maxEntry = entry;
+               bestWinesWithRatingCount.put(maxEntry.getKey(), ratingsCount);
            } else if (entry.getValue() > maxEntry.getValue()) {
                maxEntry = entry;
                bestWinesWithRatingCount.clear();
@@ -85,10 +81,12 @@ public class WineService {
            }
        }
        List<Wine> bestWine = new ArrayList<>();
+
        Map.Entry<Wine, Long> maxEntryUsers = null;
        for (Map.Entry<Wine, Long> bestEntry : bestWinesWithRatingCount.entrySet()) {
            if (maxEntryUsers == null) {
                maxEntryUsers = bestEntry;
+               bestWine.add(maxEntryUsers.getKey());
            } else if (bestEntry.getValue() > maxEntryUsers.getValue()) {
                maxEntryUsers = bestEntry;
                bestWine.clear();
@@ -106,7 +104,7 @@ public class WineService {
         List<Wine> chosenWine = new ArrayList<>();
 
         for (Map.Entry<Wine, Long> entry : wineListRatingSum.entrySet()) {
-            Long ratingsCount = (long) wineRatingRepository.findByPkWineWine(entry.getKey()).size();
+            Long ratingsCount = (long) wineRatingRepository.findByPkWineIdWine(entry.getKey().getIdWine()).size();
             entry.setValue(entry.getValue() / ratingsCount);
             if (entry.getValue() >= minRating) {
                 chosenWine.add(entry.getKey());
@@ -121,7 +119,7 @@ public class WineService {
 
         for (WineRating wineRating : ratingList) {
             Long ratingSum = wineListRatingSum.getOrDefault(wineRating.getPk().getWine(), 0L);
-            wineListRatingSum.put(wineRating.getPk().getWine(), ratingSum + 1);
+            wineListRatingSum.put(wineRating.getPk().getWine(), ratingSum+=wineRating.getRating());
         }
         return wineListRatingSum;
     }

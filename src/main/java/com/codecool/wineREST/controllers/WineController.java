@@ -2,7 +2,6 @@ package com.codecool.wineREST.controllers;
 
 import com.codecool.wineREST.entities.Region;
 import com.codecool.wineREST.entities.Wine;
-import com.codecool.wineREST.repositories.RegionRepository;
 import com.codecool.wineREST.services.RegionService;
 import com.codecool.wineREST.services.WineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +13,17 @@ import java.util.List;
 @RequestMapping("/wines")
 public class WineController {
     @Autowired
-    WineService wineService;
+    private WineService wineService;
 
     @Autowired
-    RegionService regionService;
+    private RegionService regionService;
 
     @GetMapping("")
     public Iterable<Wine> getAllWines() {
         return wineService.getAll();
     }
 
-    @RequestMapping(params = { "name"}, method=RequestMethod.GET)
+    @RequestMapping(params = {"name"}, method=RequestMethod.GET)
     public List<Wine> findByName(@RequestParam("name") String name) {
         return wineService.findByName(name);
     }
@@ -42,7 +41,7 @@ public class WineController {
         return wineService.findByStyle(style);
     }
 
-    @RequestMapping(params = { "type"}, method=RequestMethod.GET)
+    @RequestMapping(params = {"type"}, method=RequestMethod.GET)
     public List<Wine> findByType(@RequestParam("type") String type) {
         return wineService.findByType(type);
     }
@@ -52,14 +51,14 @@ public class WineController {
         return wineService.findByVariety(variety);
     }
 
-    @GetMapping("/best")
+    @RequestMapping(value ="/best", method=RequestMethod.GET)
     public Iterable<Wine> getBestWine() {
         return wineService.getBestWine();
     }
 
-    @RequestMapping(params = { "minRating"}, method=RequestMethod.GET)
-    public List<Wine> findByMinRating(@RequestParam("minRating") Integer minRating) {
-        return wineService.findByMinRating(minRating);
+    @RequestMapping(value = "/ratings", params = { "minRating"}, method=RequestMethod.GET)
+    public List<Wine> findByMinRating(@RequestParam("minRating") String minRating) {
+        return wineService.findByMinRating(Integer.valueOf(minRating));
     }
 
 }
