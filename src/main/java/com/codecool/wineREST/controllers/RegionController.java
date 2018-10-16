@@ -3,6 +3,7 @@ package com.codecool.wineREST.controllers;
 import com.codecool.wineREST.entities.Region;
 import com.codecool.wineREST.services.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,12 @@ public class RegionController {
     }
 
     public RegionController() {
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createRegion(@RequestBody Region region) {
+        this.regionService.createRegion(region.getName(), region.getCountry());
     }
 
     @RequestMapping(method = RequestMethod.GET)
