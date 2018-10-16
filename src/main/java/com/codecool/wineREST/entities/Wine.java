@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
+@Table(name="wines")
 public class Wine {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -26,8 +27,7 @@ public class Wine {
     private Region region;
     private LocalDate year;
 
-    public Wine(Long idWine, String name, String variety, String style, String type, @NotNull Producent producent, @NotNull Region region, LocalDate year) {
-        this.idWine = idWine;
+    public Wine(String name, String variety, String style, String type, @NotNull Producent producent, @NotNull Region region, LocalDate year) {
         this.name = name;
         this.variety = variety;
         this.style = style;
@@ -35,6 +35,9 @@ public class Wine {
         this.producent = producent;
         this.region = region;
         this.year = year;
+    }
+
+    public Wine() {
     }
 
     public Long getIdWine() {

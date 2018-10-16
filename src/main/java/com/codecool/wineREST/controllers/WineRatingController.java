@@ -72,7 +72,7 @@ public class WineRatingController {
      * @throws NoSuchElementException if no Tour found.
      */
     private Wine verifyWine(long idWine) throws NoSuchElementException {
-        Wine wine = this.wineRepository.findByIdWine(idWine);
+        Wine wine = this.wineRepository.findById(idWine).get();
         if (wine == null) {
             throw new NoSuchElementException("Wine does not exist " + idWine);
         }

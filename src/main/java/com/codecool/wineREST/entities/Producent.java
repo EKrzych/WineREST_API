@@ -1,10 +1,10 @@
 package com.codecool.wineREST.entities;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 @Entity
+@Table(name="producents")
 public class Producent {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -13,19 +13,18 @@ public class Producent {
     private String name;
 
 
+    public Producent() {
+    }
 
-    public Producent(Long idProducent, String name) {
-        this.idProducent = idProducent;
+    public Producent(String name) {
         this.name = name;
     }
+
 
     public Long getIdProducent() {
         return idProducent;
     }
 
-    public void setIdProducent(Long idProducent) {
-        this.idProducent = idProducent;
-    }
 
     public String getName() {
         return name;
