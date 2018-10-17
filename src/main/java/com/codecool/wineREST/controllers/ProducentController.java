@@ -26,6 +26,12 @@ public class ProducentController {
         return this.producentService.findById(idProducent);
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createProducent(@RequestBody Producent producent) {
+        this.producentService.createProducent(producent.getName());
+    }
+
     @RequestMapping(path = "/{idProducent}", method = RequestMethod.DELETE)
     public void archiveProducent(@PathVariable(value = "idProducent") long idProducent) throws FkViolationException {
         Producent producent = this.producentService.findById(idProducent);
