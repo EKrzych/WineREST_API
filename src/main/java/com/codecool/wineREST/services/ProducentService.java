@@ -27,4 +27,11 @@ public class ProducentService {
         return this.producentRepository.findByName(name);
     }
 
+    public Producent findById(long idProducent) {
+        return this.producentRepository.findByIdProducent(idProducent);
+    }
+
+    public void deleteProducent(Producent producent) {
+        this.producentRepository.delete(producent);
+    }
 }
