@@ -9,15 +9,18 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
 
+
 @RestController
+@Controller
 @RequestMapping("/producents")
 public class ProducentController {
 
-    private Logger logger = LogManager.getLogger();
+    //private Logger logger = LogManager.getLogger();
     @Autowired
     private ProducentService producentService;
     @Autowired
@@ -32,7 +35,7 @@ public class ProducentController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createProducent(@RequestBody Producent producent) {
         this.producentService.createProducent(producent.getName());
-        logger.info("Created new region");
+//        logger.info("Created new region");
     }
 
     @RequestMapping(path = "/{idProducent}", method = RequestMethod.DELETE)
@@ -46,8 +49,8 @@ public class ProducentController {
             this.producentService.deleteProducent(producent);
             this.producentArchiveService.archive(producent);
         } catch (DataIntegrityViolationException e) {
-            logger.error("Constraint violation: prodcent of id " + producent.getIdProducent() + " is attached to wine" +
-                    " existing in the DB");
+//            logger.error("Constraint violation: prodcent of id " + producent.getIdProducent() + " is attached to wine" +
+//                    " existing in the DB");
             throw new FkViolationException("This producent is attached to wine existing in the DB");
         }
     }
