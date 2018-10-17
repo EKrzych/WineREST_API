@@ -73,6 +73,5 @@ public class ProducentController {
     @ExceptionHandler(NoSuchElementException.class)
     public String return400(NoSuchElementException ex) {
         return ex.getMessage();
-
     }
 }
