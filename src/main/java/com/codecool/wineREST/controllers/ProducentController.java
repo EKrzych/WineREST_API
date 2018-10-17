@@ -4,6 +4,8 @@ import com.codecool.wineREST.entities.Producent;
 import com.codecool.wineREST.exceptions.FkViolationException;
 import com.codecool.wineREST.services.ProducentArchiveService;
 import com.codecool.wineREST.services.ProducentService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,6 +17,8 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/producents")
 public class ProducentController {
+
+    private static final Logger LOGGER = LogManager.getLogger(ProducentController.class.getName());
 
     @Autowired
     ProducentService producentService;
@@ -39,6 +43,8 @@ public class ProducentController {
 
     @GetMapping()
     public Iterable<Producent> getAllProducents() {
+        LOGGER.debug("Debug Message Logged !!!");
+        LOGGER.info("Info Message Logged !!!");
         return producentService.getAll();
     }
 
