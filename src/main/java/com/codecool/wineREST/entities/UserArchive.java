@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users_archive")
 public class UserArchive {
 
     @Id
