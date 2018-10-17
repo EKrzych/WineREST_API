@@ -23,6 +23,10 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
+    public User getByUsername(String username) {
+        return this.userRepository.findByUsername(username);
+    }
+
     public void deleteUser(User user) {
         this.userRepository.delete(user);
     }
