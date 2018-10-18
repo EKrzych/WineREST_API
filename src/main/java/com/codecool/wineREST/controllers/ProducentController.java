@@ -66,6 +66,6 @@ public class ProducentController {
 
     @RequestMapping(path = "/err")
     public void return502() throws ServerErrorException {
-        throw new ServerErrorException("Method for this endpoint not implemented yet");
+        throw new ServerErrorException("Method for this endpoint has not been implemented yet");
     }
 }
