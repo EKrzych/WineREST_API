@@ -3,6 +3,7 @@ package com.codecool.wineREST.helpers;
 import com.codecool.wineREST.entities.Region;
 import com.codecool.wineREST.services.ProducentService;
 import com.codecool.wineREST.services.RegionService;
+import com.codecool.wineREST.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,14 +20,25 @@ public class DBGenerator {
     ProducentService producentService;
     @Autowired
     RegionService regionService;
+    @Autowired
+    UserService userService;
 
     public void populateDB() {
         populateProducers();
         populateRegions();
 //        populateWine();
-//        populateUsers();
+       populateUsers();
 //        populateWineRating();
 //        populateWineRatingPK();
+    }
+
+    private void populateUsers() {
+        Path path = Paths.get("/Users/elzbietakrzych/Documents/codecool/ADVANCED/2018_10_15_TW/spring-boot-project-edobkowski/src/main/resources/Users.csv");
+        List<String> users = fileReaderCSV.readData(path);
+        for(String user : users) {
+            String[] usersData = user.split(",");
+            userService.createUser(usersData[0],usersData[1],usersData[2]);
+        }
     }
 
     private void populateRegions() {
