@@ -9,6 +9,7 @@ import com.codecool.wineREST.repositories.WineRatingRepository;
 import com.codecool.wineREST.repositories.WineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.codecool.wineREST.web.RatingDTO;
@@ -16,6 +17,7 @@ import com.codecool.wineREST.web.RatingDTO;
 import java.util.NoSuchElementException;
 
 @RestController
+@Controller
 @RequestMapping(path = "/wines/{idWine}/ratings")
 public class WineRatingController {
 

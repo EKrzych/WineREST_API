@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 @Component
 public class LoggerInterceptor extends HandlerInterceptorAdapter {
+
     private static Logger log = LoggerFactory.getLogger(LoggerInterceptor.class);
 
     @Override
@@ -17,6 +18,7 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
             HttpServletRequest request,
             HttpServletResponse response,
             Object handler) throws Exception {
+        System.out.println("innn prehandlerrr");
         log.info("[preHandle][STARTED]" + "[" + request.getMethod()
                 + "] ON " + request.getRequestURI());
 
@@ -27,7 +29,7 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
     public void afterCompletion(
             HttpServletRequest request, HttpServletResponse response,Object handler, Exception ex)
             throws Exception {
-        System.out.println(request.getRequestURI());
+        System.out.println("In after completion");
         if (Integer.valueOf(response.getStatus()) >= 400) {
             log.error("[afterCompletion][Status:" + response.getStatus()+ "][Cannot perform " + request.getMethod()
                     + "] ON " + request.getRequestURI());

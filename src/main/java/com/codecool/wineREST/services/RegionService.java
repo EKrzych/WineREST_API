@@ -39,4 +39,6 @@ public class RegionService {
     public List<Region> getByCountry(String country) {
         return this.regionRepository.findByCountry(country);
     }
+
+    public Region findById(long idRegion) {return this.regionRepository.findByIdRegion(idRegion);}
 }

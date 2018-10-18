@@ -123,4 +123,12 @@ public class WineService {
         }
         return wineListRatingSum;
     }
+
+    public Wine findById(long idWine) {
+        return this.wineRepository.findByIdWine(idWine);
+    }
+
+    public void deleteWine(Wine wine) {
+        this.wineRepository.delete(wine);
+    }
 }
