@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/wines")
@@ -27,30 +28,56 @@ public class WineController {
 
     @RequestMapping(params = {"name"}, method=RequestMethod.GET)
     public List<Wine> findByName(@RequestParam("name") String name) {
-        return wineService.findByName(name);
+        List<Wine> wines = wineService.findByName(name);
+        if (wines == null) {
+            throw new NoSuchElementException("There is no wines of name: " + name);
+        }
+
+        return wines;
     }
 
     @RequestMapping(params = { "regionName"}, method=RequestMethod.GET)
     public List<Wine> findByRegion(@RequestParam("regionName") String regionName) {
-
         Region region = regionService.getByName(regionName);
-        return wineService.findByRegion(region);
+        if(region == null) {
+            throw new NoSuchElementException("There is no region of name: " + regionName);
+        }
+        List<Wine> wines = wineService.findByRegion(region);
+        if (wines == null) {
+            throw new NoSuchElementException("There is no wines from region: " + regionName);
+        }
+
+        return wines;
     }
 
     @RequestMapping(params = {"style"}, method=RequestMethod.GET)
     public List<Wine> findByStyle(@RequestParam("style") String style) {
+        List<Wine> wines = wineService.findByStyle(style);
+        if (wines == null) {
+            throw new NoSuchElementException("There is no wines of style: " + style);
+        }
 
-        return wineService.findByStyle(style);
+        return wines;
     }
 
     @RequestMapping(params = {"type"}, method=RequestMethod.GET)
     public List<Wine> findByType(@RequestParam("type") String type) {
-        return wineService.findByType(type);
+        List<Wine> wines = wineService.findByType(type);
+        if (wines == null) {
+            throw new NoSuchElementException("There is no wines of type: " + type);
+        }
+
+        return wines;
     }
 
     @RequestMapping(params = { "variety"}, method=RequestMethod.GET)
     public List<Wine> findByVariety(@RequestParam("variety") String variety) {
-        return wineService.findByVariety(variety);
+        List<Wine> wines = wineService.findByVariety(variety);
+        if (wines == null) {
+            throw new NoSuchElementException("There is no wines of variety: " + variety);
+        }
+
+        return wines;
     }
 
     @RequestMapping(value ="/best", method=RequestMethod.GET)
@@ -68,5 +95,4 @@ public class WineController {
     public void createWine(@RequestBody Wine wine) {
         this.wineService.createWine(wine.getName(), wine.getVariety(), wine.getStyle(), wine.getType(), wine.getProducent().getIdProducent(), wine.getRegion().getIdRegion(),wine.getYear());
     }
-
 }

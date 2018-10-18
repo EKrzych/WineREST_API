@@ -31,9 +31,18 @@ public class UserController {
     public UserController() {
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    Iterable<User> getAll() {
+        return this.userService.getAll();
+    }
+
     @RequestMapping(path = "/{username}", method = RequestMethod.GET)
     User getByUsername(@PathVariable(value = "username") String username) {
-        return this.userService.getByUsername(username);
+        User user = this.userService.getByUsername(username);
+        if(user == null) {
+            throw new NoSuchElementException("There is no user: " + username);
+        }
+        return user;
     }
 
     @RequestMapping(path = "/{username}", method = RequestMethod.DELETE)
@@ -47,11 +56,6 @@ public class UserController {
         this.userService.deleteUser(user);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    Iterable<User> getAll() {
-        return this.userService.getAll();
-    }
-
     @RequestMapping(path = "/{username}/ratings", method = RequestMethod.GET)
     Iterable<WineRating> getAllUsersRatings(@PathVariable(value = "username") String username) {
         return this.wineRatingRepository.findByPkUsername(username);
@@ -61,11 +65,5 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@RequestBody User user) {
         this.userService.createUser(user.getUsername(), user.getFirstName(), user.getLastName());
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NoSuchElementException.class)
-    public String return400(NoSuchElementException e) {
-        return e.getMessage();
     }
 }

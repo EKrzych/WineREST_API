@@ -2,6 +2,7 @@ package com.codecool.wineREST.controllers;
 
 import com.codecool.wineREST.entities.Producent;
 import com.codecool.wineREST.exceptions.FkViolationException;
+import com.codecool.wineREST.exceptions.ServerErrorException;
 import com.codecool.wineREST.services.ProducentArchiveService;
 import com.codecool.wineREST.services.ProducentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,12 @@ public class ProducentController {
 
     @RequestMapping(path = "/{idProducent}", method = RequestMethod.GET)
     public Producent getById(@PathVariable(value = "idProducent") long idProducent) {
-        return this.producentService.findById(idProducent);
+        Producent producent = this.producentService.findById(idProducent);
+        if(producent == null) {
+            throw new NoSuchElementException("There is no producent with id: " + idProducent);
+        }
+
+        return producent;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -58,15 +64,8 @@ public class ProducentController {
         return producentService.findByName(name);
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(FkViolationException.class)
-    public String return409(FkViolationException e) {
-        return e.getMessage();
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NoSuchElementException.class)
-    public String return404(NoSuchElementException ex) {
-        return ex.getMessage();
+    @RequestMapping(path = "/err")
+    public void return502() throws ServerErrorException {
+        throw new ServerErrorException("Method for this endpoint not implemented yet");
     }
 }
