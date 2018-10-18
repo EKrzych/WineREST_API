@@ -17,9 +17,8 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
             HttpServletRequest request,
             HttpServletResponse response,
             Object handler) throws Exception {
-        System.out.println("------------------------in prehandle");
-        log.info("[preHandle][" + request + "]" + "[" + request.getMethod()
-                + "]" + request.getRequestURI()+"WooooWWWWWWWW");
+        log.info("[preHandle][STARTED]" + "[" + request.getMethod()
+                + "] ON " + request.getRequestURI());
 
         return true;
     }
@@ -28,11 +27,14 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
     public void afterCompletion(
             HttpServletRequest request, HttpServletResponse response,Object handler, Exception ex)
             throws Exception {
-        if (ex != null){
-            ex.printStackTrace();
-            log.error("OJJJJJJJJJJJJJJJJJJ");
+        System.out.println(request.getRequestURI());
+        if (Integer.valueOf(response.getStatus()) >= 400) {
+            log.error("[afterCompletion][Status:" + response.getStatus()+ "][Cannot perform " + request.getMethod()
+                    + "] ON " + request.getRequestURI());
+        } else {
+
+            log.info("[afterCompletion][Status:" + response.getStatus() + "][SUCCESSFUL " + request.getMethod()
+                    + "] ON " + request.getRequestURI());
         }
-        System.out.println("--------------------------------aftercompletion");
-        log.info("[afterCompletion][" + request + "][exception: " + ex + "]" + "AAAAAAAAAAAAAAAAAA");
     }
 }

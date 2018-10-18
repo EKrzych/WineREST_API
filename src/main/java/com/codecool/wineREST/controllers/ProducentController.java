@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("/producents")
 public class ProducentController {
 
-    private Logger logger = LogManager.getLogger();
+   // private Logger logger = LogManager.getLogger();
     @Autowired
     private ProducentService producentService;
     @Autowired
@@ -28,7 +28,7 @@ public class ProducentController {
 
     @RequestMapping(path = "/{idProducent}", method = RequestMethod.GET)
     public Producent getById(@PathVariable(value = "idProducent") long idProducent) {
-        logger.info("Created new region11");
+      //  logger.info("Created new region11");
         return this.producentService.findById(idProducent);
     }
 
@@ -36,7 +36,7 @@ public class ProducentController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createProducent(@RequestBody Producent producent) {
         this.producentService.createProducent(producent.getName());
-        logger.info("Created new region");
+       // logger.info("Created new region");
     }
 
     @RequestMapping(path = "/{idProducent}", method = RequestMethod.DELETE)
@@ -67,15 +67,15 @@ public class ProducentController {
         return producentService.findByName(name);
     }
 
-    @ResponseStatus(HttpStatus.IM_USED)
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(FkViolationException.class)
-    public String return400(FkViolationException e) {
+    public String return409(FkViolationException e) {
         return e.getMessage();
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchElementException.class)
-    public String return400(NoSuchElementException ex) {
+    public String return404(NoSuchElementException ex) {
         return ex.getMessage();
     }
 }
