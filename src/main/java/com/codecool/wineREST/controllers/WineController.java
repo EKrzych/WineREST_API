@@ -3,12 +3,18 @@ package com.codecool.wineREST.controllers;
 import com.codecool.wineREST.entities.Region;
 import com.codecool.wineREST.entities.User;
 import com.codecool.wineREST.entities.Wine;
+import com.codecool.wineREST.entities.WineArchive;
+import com.codecool.wineREST.exceptions.FkViolationException;
 import com.codecool.wineREST.services.RegionService;
+import com.codecool.wineREST.services.WineArchiveService;
 import com.codecool.wineREST.services.WineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -19,9 +25,12 @@ public class WineController {
     private WineService wineService;
 
     @Autowired
+    private WineArchiveService wineArchiveService;
+
+    @Autowired
     private RegionService regionService;
 
-    @GetMapping("")
+    @RequestMapping("")
     public Iterable<Wine> getAllWines() {
         return wineService.getAll();
     }
@@ -34,6 +43,28 @@ public class WineController {
         }
 
         return wines;
+    }
+
+    @RequestMapping(path = "/{idWine}", method = RequestMethod.GET)
+    public Wine getById(@PathVariable(value = "idWine") long idWine) {
+        return this.wineService.findById(idWine);
+    }
+
+    @RequestMapping(path = "/{idWine}", method = RequestMethod.DELETE)
+    public void archiveWine(@PathVariable(value = "idWine") long idWine) throws NoSuchElementException,
+            FkViolationException {
+        Wine wine = this.wineService.findById(idWine);
+        if(wine == null) {
+            throw new NoSuchElementException("There is no wine with id: " + idWine);
+        }
+        try {
+
+            this.wineService.deleteWine(wine);
+            this.wineArchiveService.archive(wine);
+
+        } catch (DataIntegrityViolationException e) {
+            throw new FkViolationException("This region is attached to wine existing in the DB");
+        }
     }
 
     @RequestMapping(params = { "regionName"}, method=RequestMethod.GET)
@@ -93,6 +124,7 @@ public class WineController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void createWine(@RequestBody Wine wine) {
-        this.wineService.createWine(wine.getName(), wine.getVariety(), wine.getStyle(), wine.getType(), wine.getProducent().getIdProducent(), wine.getRegion().getIdRegion(),wine.getYear());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+        this.wineService.createWine(wine.getName(), wine.getVariety(), wine.getStyle(), wine.getType(), wine.getProducent().getIdProducent(), wine.getRegion().getIdRegion(),wine.getYear().format(formatter));
     }
 }

@@ -10,4 +10,5 @@ import java.util.List;
 public interface RegionRepository extends CrudRepository<Region, Long> {
     List<Region> findByCountry(String country);
     Region findByName(String name);
+    Region findByIdRegion(long idRegion);
 }

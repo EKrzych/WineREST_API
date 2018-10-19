@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -30,10 +31,15 @@ public class WineService {
         this.wineRatingRepository = wineRatingRepository;
     }
 
-    public void createWine(String name, String variety, String style, String type, Long idProducent, Long idRegion, LocalDate year) {
+    public void createWine(String name, String variety, String style, String type, Long idProducent, Long idRegion, String year) {
+
         Producent producent = producentRepository.findById(idProducent).orElseThrow(NoSuchElementException::new);
         Region region = regionRepository.findById(idRegion).orElseThrow(NoSuchElementException::new);
-        this.wineRepository.save(new Wine(name, variety, style, type, producent, region, year));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/d/yyyy");
+        LocalDate localDate = LocalDate.parse(year, formatter);
+
+        this.wineRepository.save(new Wine(name, variety, style, type, producent, region, localDate));
     }
 
     public Iterable<Wine> getAll() {
@@ -122,5 +128,13 @@ public class WineService {
             wineListRatingSum.put(wineRating.getPk().getWine(), ratingSum+=wineRating.getRating());
         }
         return wineListRatingSum;
+    }
+
+    public Wine findById(long idWine) {
+        return this.wineRepository.findByIdWine(idWine);
+    }
+
+    public void deleteWine(Wine wine) {
+        this.wineRepository.delete(wine);
     }
 }

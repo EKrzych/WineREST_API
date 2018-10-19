@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class LoggerInterceptor extends HandlerInterceptorAdapter {
+
     private static Logger log = LoggerFactory.getLogger(LoggerInterceptor.class);
 
     @Override
