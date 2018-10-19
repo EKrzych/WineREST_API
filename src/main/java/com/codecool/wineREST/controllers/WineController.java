@@ -21,14 +21,16 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/wines")
 public class WineController {
-    @Autowired
     private WineService wineService;
-
-    @Autowired
     private WineArchiveService wineArchiveService;
+    private RegionService regionService;
 
     @Autowired
-    private RegionService regionService;
+    public WineController(WineService wineService, WineArchiveService wineArchiveService, RegionService regionService) {
+        this.wineService = wineService;
+        this.wineArchiveService = wineArchiveService;
+        this.regionService = regionService;
+    }
 
     @RequestMapping("")
     public Iterable<Wine> getAllWines() {

@@ -15,11 +15,14 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/producents")
 public class ProducentController {
+    private ProducentService producentService;
+    private ProducentArchiveService producentArchiveService;
 
     @Autowired
-    private ProducentService producentService;
-    @Autowired
-    private ProducentArchiveService producentArchiveService;
+    public ProducentController(ProducentService producentService, ProducentArchiveService producentArchiveService) {
+        this.producentService = producentService;
+        this.producentArchiveService = producentArchiveService;
+    }
 
     @RequestMapping(path = "/{idProducent}", method = RequestMethod.GET)
     public Producent getById(@PathVariable(value = "idProducent") long idProducent) {
