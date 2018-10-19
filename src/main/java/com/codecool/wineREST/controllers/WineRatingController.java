@@ -17,7 +17,6 @@ import com.codecool.wineREST.web.RatingDTO;
 import java.util.NoSuchElementException;
 
 @RestController
-@Controller
 @RequestMapping(path = "/wines/{idWine}/ratings")
 public class WineRatingController {
 

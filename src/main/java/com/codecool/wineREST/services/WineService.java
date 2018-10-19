@@ -32,8 +32,10 @@ public class WineService {
     }
 
     public void createWine(String name, String variety, String style, String type, Long idProducent, Long idRegion, String year) {
+
         Producent producent = producentRepository.findById(idProducent).orElseThrow(NoSuchElementException::new);
         Region region = regionRepository.findById(idRegion).orElseThrow(NoSuchElementException::new);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/d/yyyy");
         LocalDate localDate = LocalDate.parse(year, formatter);
 
